@@ -13,10 +13,12 @@ export async function addItem(params, channelId, author) {
 
     // if exists, add amount
     let itemId;
+    let currentAmount;
     if (existingItem) {
         existingItem.amount += parseInt(amount, 10);
         await existingItem.save();
         itemId = existingItem.id;
+        currentAmount = existingItem.amount;
     } else {
         // else register new entry
         const item = await Supply.create({
@@ -25,6 +27,7 @@ export async function addItem(params, channelId, author) {
             channelId,
         });
         itemId = item.id;
+        currentAmount = amount;
     }
 
     // create history data here
@@ -36,6 +39,7 @@ export async function addItem(params, channelId, author) {
             playerName: author.username,
             deposit: amount,
             withdraw: 0,
+            amountLeft: currentAmount,
             notes: notes?.join(' ') || null,
         });
     } catch (error) {
@@ -90,6 +94,7 @@ export async function useItem(params, channelId, author) {
             playerName: author.username,
             deposit: 0,
             withdraw,
+            amountLeft: existingItem.amount,
             notes: notes?.join(' ') || null,
         });
     } catch (error) {
@@ -128,8 +133,8 @@ export async function logItem(params, channelId) {
     });
 
     return generateTable(
-        dataIntoArray(JSON.parse(JSON.stringify(history)), ['playerName', 'amount', 'formattedCreatedAt', 'notes']),
-        ['Player Name', 'Amount', 'Date', 'Notes'],
+        dataIntoArray(JSON.parse(JSON.stringify(history)), ['playerName', 'formattedCreatedAt', 'amount', 'amountLeft', 'notes']),
+        ['Player Name','Date', 'W/D', 'Amount', 'Notes'],
         `Item Name: ${itemName}`,
     );
 }

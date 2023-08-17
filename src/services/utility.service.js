@@ -26,5 +26,5 @@ function padString(string, width) {
  * @returns string[][]
  */
 export function dataIntoArray(data, attributes) {
-    return data.map((datum) => attributes.map((attribute) => datum[attribute]));
+    return data.map((datum) => attributes.map((attribute) => datum[attribute]?.toLocaleString('en')));
 }

@@ -22,6 +22,10 @@ export default sequelize.define('supply_histories', {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
+    amountLeft: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     notes: {
         type: DataTypes.STRING,
         allowNull: true,

@@ -29,6 +29,10 @@ module.exports = {
           type: DataTypes.INTEGER,
           allowNull: false,
       },
+      amountLeft: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
       notes: {
           type: DataTypes.STRING,
           allowNull: true,
